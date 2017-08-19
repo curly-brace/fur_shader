@@ -9,4 +9,5 @@ The parameters texture uses red channel to control fur length, green shannel to 
 The blue channel should actually be like a set of dots, but i'm too lazy, so i used white noise for this.
 
 There is also a commented code that simulates wind.
+
 [![screenshot](/screenshot.png)](https://godotengine.org)
