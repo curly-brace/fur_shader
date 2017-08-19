@@ -1,0 +1,65 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+
+code = "shader_type spatial;
+render_mode cull_disabled;
+
+uniform sampler2D fur_tex;
+uniform sampler2D fur_params_tex;
+uniform float max_len=0.5;
+uniform float cur_layer:hint_range(0,1);
+uniform vec3 gravity = vec3(0,-1,0);
+
+void vertex() {
+    /*
+	vec3 forceDirection = vec3(0.0);
+	vec4 position = vec4(VERTEX, 1.0);
+	
+	// Wind
+	forceDirection.x = sin(TIME + position.x * 0.05) * 0.2;
+	forceDirection.y = cos(TIME * 0.7 + position.y * 0.04) * 0.2;
+	forceDirection.z = sin(TIME * 0.7 + position.y * 0.04) * 0.2;
+	
+	vec3 displacement = forceDirection + gravity;
+	
+	float displacementFactor = pow(cur_layer, 3.0);
+	vec4 aNormal = vec4(NORMAL,1.0);
+	aNormal.xyz += displacement * displacementFactor;
+	
+	vec4 n = normalize(aNormal) * max_len * cur_layer;
+	vec4 wpos = vec4(VERTEX.xyz + n.xyz, 1.0);
+    VERTEX = wpos.xyz;
+    */
+    
+    vec3 pos = VERTEX.xyz + NORMAL * max_len * cur_layer;
+    VERTEX = pos;
+
+    
+    // twp possibilities to offset the vertex:
+    // VERTEX.xyz + NORMAL * offset
+    // VERTEX + NORMAL * MaxHairLength * CurrentLayer
+}
+
+void fragment(){
+    vec4 fur_params = texture(fur_params_tex, UV);
+
+    if (cur_layer == 0.0) {
+        if (fur_params.g == 0.0) {
+            ALBEDO = texture(fur_tex, UV).rgb * 0.65;
+        } else {
+            ALBEDO = texture(fur_tex, UV).rgb * 0.4;
+        }
+    } else if (fur_params.b <= 0.35 || fur_params.r < cur_layer || fur_params.g == 0.0) {
+        ALPHA = 0.0;
+	} else {
+        vec3 fur = texture(fur_tex, UV).rgb;
+        fur *= mix(0.4, 1.0, cur_layer);
+    
+        ALBEDO = fur;
+
+        ALPHA = 1.1 - cur_layer;
+    }
+}
+"
+
