@@ -8,4 +8,5 @@ Godot also doesn't support lots of shader passes right now, so setting like 20 s
 The parameters texture uses red channel to control fur length, green shannel to mask fur and blue as a pattern of separate hairs.
 The blue channel should actually be like a set of dots, but i'm too lazy, so i used white noise for this.
 
+There is also a commented code that simulates wind.
 [![screenshot](/screenshot.png)](https://godotengine.org)
