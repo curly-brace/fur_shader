@@ -5,4 +5,7 @@ There is a sphere inside fur ball, that is temp fix of rendering bug, that is cu
 
 Godot also doesn't support lots of shader passes right now, so setting like 20 shells in the script, will result in very long startup and low performance.
 
+The parameters texture uses red channel to control fur length, green shannel to mask fur and blue as a pattern of separate hairs.
+The blue channel should actually be like a set of dots, but i'm too lazy, so i used white noise for this.
+
 [![screenshot](/screenshot.png)](https://godotengine.org)
